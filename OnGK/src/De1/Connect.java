@@ -7,28 +7,17 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Connect {
-	private static Connection conn = null;
+	private static final String URL = "jdbc:mysql://localhost:3306/De1";
+	private static final String USER = "root";
+	private static final String PASS = "";
+
 	public static Connection getConnection() {
-		
-		if(conn== null) {
-			try {
-				Class.forName("com.mysql.jdbc.Driver");
-				conn = DriverManager.getConnection("jdbc:mysql://localhost/De1", "root", "");
-				
-			} catch (ClassNotFoundException | SQLException ex) {
-				Logger.getLogger(Connect.class.getName()).log(Level.SEVERE, null, ex);
-			}
-		}
-		return conn;
-	}
-	
-	public static void close() {
-		if(conn != null) {
-			try {
-				conn.close();
-			} catch (SQLException ex) {
-				Logger.getLogger(Connect.class.getName()).log(Level.SEVERE, null, ex);
-			}
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			return DriverManager.getConnection(URL, USER, PASS);
+		} catch (ClassNotFoundException | SQLException ex) {
+			Logger.getLogger(Connect.class.getName()).log(Level.SEVERE, null, ex);
+			return null;
 		}
 	}
 }
